@@ -2,8 +2,8 @@ import express from 'express';
 import Hello from "./Hello.js"
 import Lab5 from "./Lab5/index.js";
 import cors from "cors";
-import CourseRoutes from './Kanbas/Courses/routes.js';
-import ModuleRoutes from "./Kanbas/modules/routes.js";
+import CourseRoutes from "./Users/routes.js";
+import ModuleRoutes from "./Users/routes.js";
 import AssignmentRoutes from './Kanbas/assignments/routes.js';
 import mongoose from "mongoose";
 import "dotenv/config";
