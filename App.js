@@ -7,7 +7,6 @@ import ModuleRoutes from "./Kanbas/modules/routes.js"
 import AssignmentRoutes from './Kanbas/assignments/routes.js';
 import mongoose from "mongoose";
 import "dotenv/config";
-import UserRoutes from './Users/routes.js';
 import session from "express-session";
 import "dotenv/config";
 
@@ -39,7 +38,6 @@ const sessionOptions = {
 AssignmentRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);
-UserRoutes(app);
 
 Hello(app);
 Lab5(app);
