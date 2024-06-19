@@ -40,6 +40,11 @@ app.use(
 
 app.use(express.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use('/images', express.static(path.join(__dirname, '../kanbas-react-web-app/public/images')));
+
 
 UserRoutes(app);
 ModuleRoutes(app);
