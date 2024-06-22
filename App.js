@@ -40,11 +40,10 @@ app.use(
 
 app.use(express.json());
 
+UserRoutes(app);
 ModuleRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);
-UserRoutes(app);
-
 
 Hello(app);
 Lab5(app);
