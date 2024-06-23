@@ -13,7 +13,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb+srv://wwwwjoey:Pt863088!@kanbas.tun3nun.mongodb.net/?retryWrites=true&w=majority&appName=Kanbas"
 mongoose.connect(CONNECTION_STRING);
 
 const app = express()
