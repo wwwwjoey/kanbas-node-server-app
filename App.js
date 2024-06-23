@@ -13,9 +13,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
-mongoose.connect(CONNECTION_STRING);
-
 const app = express()
 app.use(
     cors({
@@ -39,6 +36,9 @@ app.use(
     session(sessionOptions));
 
 app.use(express.json());
+
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+mongoose.connect(CONNECTION_STRING);
 
 UserRoutes(app);
 ModuleRoutes(app);
