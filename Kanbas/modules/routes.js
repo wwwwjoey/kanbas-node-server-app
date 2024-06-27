@@ -1,44 +1,47 @@
-import express from 'express';
-import Hello from "./Hello.js"
-import Lab5 from "./Lab5/index.js";
-import cors from "cors";
-import AssignmentRoutes from './Kanbas/assignments/routes.js';
-import mongoose from "mongoose";
-import "dotenv/config";
-import session from "express-session";
-import "dotenv/config";
-import CourseRoutes from "./Kanbas/Courses/routes.js";
-import ModuleRoutes from  "./Kanbas/modules/routes.js"
+import * as dao from "./dao.js";
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
-mongoose.connect(CONNECTION_STRING);
-const app = express();
-app.use(cors({   credentials: true,
-    origin: process.env.NETLIFY_URL || "http://localhost:3000",})); 
-    
-
-app.use(express.json());
-const sessionOptions = {
-    secret: process.env.SESSION_SECRET || "kanbas",
-    resave: false,
-    saveUninitialized: false,
-  };
-  if (process.env.NODE_ENV !== "development") {
-    sessionOptions.proxy = true;
-    sessionOptions.cookie = {
-      sameSite: "none",
-      secure: true,
-      domain: process.env.NODE_SERVER_DOMAIN,
+export default function ModuleRoutes(app) {
+    const updateModule = async (req, res) => {
+        const status = await dao.updateModule(req.params.mid, req.body);
+        res.json(status);
     };
-  }
-  app.use(session(sessionOptions));
-  
-  
 
-AssignmentRoutes(app);
-CourseRoutes(app);
-ModuleRoutes(app);
-Hello(app);
-Lab5(app);
+    const deleteModule = async (req, res) => {
+        const { mid } = req.params;
+        try {
+            await dao.deleteModule(mid);
+            res.sendStatus(200);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    };
 
-app.listen(process.env.PORT || 4000);
+    const createModule = async (req, res) => {
+        const { cid } = req.params;
+        const newModule = {
+            ...req.body,
+            course: cid,
+        };
+        try {
+            const createdModule = await dao.createModule(newModule);
+            res.json(createdModule);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    };
+
+    const findModulesForCourse = async (req, res) => {
+        const { cid } = req.params;
+        try {
+            const modules = await dao.findModulesForCourse(cid);
+            res.json(modules);
+        } catch (error) {
+            res.status(500).send(error);
+        }
+    };
+
+    app.put("/api/modules/:mid", updateModule);
+    app.delete("/api/modules/:mid", deleteModule);
+    app.post("/api/courses/:cid/modules", createModule);
+    app.get("/api/courses/:cid/modules", findModulesForCourse);
+}
